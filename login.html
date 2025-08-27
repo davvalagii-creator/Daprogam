@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login Glass UI</title>
+<link rel="stylesheet" href="sd/style.css" />
+</head>
+<body>
+<br /> <br /> <br />
+<br /> <br /> <br />
+</style>
+<div class="background"></div>
+
+<div class="container">
+<form class="glass-card" onsubmit="goHome(event)">
+  <h2>Welcome Back</h2>
+  <p>Please login to your account</p>
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" placeholder="PSHT022@gmail.com" required />
+
+  <label for="password">Password</label>
+  <input type="password" id="password" name="password" placeholder="••••••••" required />
+
+  <button type="submit">Login</button>
+
+  <div class="footer">
+    <p>Don't have an account? <a href="register.html">Register</a></p>
+  </div>
+</form>
+
+<script>
+  function goHome(event) {
+    event.preventDefault(); // stop submit form ke server
+    window.location.href = "sd/main.html"; // redirect ke halaman utama
+  }
+</script>
+</script>
+</body>
+</html>

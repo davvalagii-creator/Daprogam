@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman Cerita Pendek - Koleksi Kisah Inspiratif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .story-card {
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-pattern {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .category-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .read-more-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .read-more-btn:hover {
+            transform: translateX(5px);
+        }
+        
+        .story-image {
+            transition: transform 0.5s ease;
+        }
+        
+        .story-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 16px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            z-index: 1001;
+        }
+        
+        .close-btn:hover {
+            color: #374151;
+        }
+        
+        .editor-toolbar {
+            background: #f8fafc;
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .editor-btn {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-right: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .editor-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        #storyContent {
+            min-height: 200px;
+            border: 1px solid #e5e7eb;
+            padding: 16px;
+            border-radius: 8px;
+            resize: vertical;
+        }
+        
+        .story-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .share-btn {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .share-btn:hover {
+            background: #2563eb;
+        }
+        
+        .edit-btn {
+            background: #10b981;
+            color: white;
+        }
+        
+        .edit-btn:hover {
+            background: #059669;
+        }
+        
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="hero-pattern text-white">
+        <div class="container mx-auto px-4 py-8">
+            <nav class="flex justify-between items-center mb-12">
+                <div class="text-2xl font-bold font-['Playfair_Display']">CeritaKu</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#" class="hover:text-gray-200 transition">Beranda</a>
+                    <a href="#" class="hover:text-gray-200 transition">Kategori</a>
+                    <a href="#" class="hover:text-gray-200 transition">Tentang</a>
+                    <a href="#" class="hover:text-gray-200 transition">Kontak</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-bold font-['Playfair_Display'] mb-6">
+                    Kumpulan Cerita Pendek Terbaik
+                </h1>
+                <p class="text-xl md:text-2xl opacity-90 mb-8">
+                    Temukan rangkuman cerita-cerita inspiratif dari berbagai genre dan penulis
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="bg-white text-purple-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition">
+                        Jelajahi Cerita
+                    </button>
+                    <button onclick="openShareModal()" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-700 transition">
+                        Bagikan Cerita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Kategori -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 font-['Playfair_Display']">Kategori Cerita</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="category-btn bg-blue-100 text-blue-800 p-6 rounded-lg text-center cursor-pointer">
+                    <i class="fas fa-heart text-3xl mb-3"></i>
+                    <h3 class="font-semibold">Romantis</h3>
+                </div>
+                <div class="category-btn bg-green-100 text-green-800 p-6 rounded-lg text-center cursor-pointer">
+                    <i class="fas fa-dragon text-3xl mb-3"></i>
+                    <h3 class="font-semibold">Fantasi</h3>
+                </div>
+                <div class="category-btn bg-red-100 text-red-800 p-6 rounded-lg text-center cursor-pointer">
+                    <i class="fas fa-skull text-3xl mb-3"></i>
+                    <h3 class="font-semibold">Horor</h3>
+                </div>
+                <div class="category-btn bg-purple-100 text-purple-800 p-6 rounded-lg text-center cursor-pointer">
+                    <i class="fas fa-lightbulb text-3xl mb-3"></i>
+                    <h3 class="font-semibold">Inspiratif</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daftar Cerita -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-3xl font-bold font-['Playfair_Display']">Cerita Terbaru</h2>
+                <div class="flex items-center space-x-4">
+                    <input type="text" placeholder="Cari cerita..." class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option>Urutkan Terbaru</option>
+                        <option>Urutkan Populer</option>
+                        <option>Urutkan A-Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="storiesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cerita akan dimuat secara dinamis -->
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                    Muat Lebih Banyak Cerita
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 bg-purple-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6 font-['Playfair_Display']">Tetap Terupdate</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">
+                Dapatkan notifikasi ketika cerita baru ditambahkan. Jangan lewatkan rangkuman cerita terbaik setiap minggunya!
+            </p>
+            <div class="max-w-md mx-auto flex">
+                <input type="email" placeholder="Email Anda" class="flex-1 px-4 py-3 rounded-l-lg text-gray-800 focus:outline-none">
+                <button class="bg-white text-purple-600 px-6 py-3 rounded-r-lg font-semibold hover:bg-gray-100 transition">
+                    Berlangganan
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 font-['Playfair_Display']">CeritaKu</h3>
+                    <p class="text-gray-400">Platform berbagi rangkuman cerita pendek terbaik dari berbagai genre.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Kategori</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Romantis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Fantasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Horor</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Inspiratif</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Tautan</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Tentang Kami</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Kontak</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/share/177Deefybd/" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/dapa_kebelet.tobat?igsh=Zjd3OHd6ZXZvZDBn" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@ghoshot.empire?si=9SGaV-81bEDPPPD7" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 CeritaKu. Semua hak cipta dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Bagikan Cerita -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content w-full md:w-3/4 lg:w-2/3">
+            <span class="close-btn" onclick="closeModal('shareModal')">&times;</span>
+            <div class="p-6">
+                <h2 class="text-2xl font-bold mb-6 font-['Playfair_Display']">Bagikan Cerita Anda</h2>
+                <form id="storyForm" onsubmit="submitStory(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Judul Cerita</label>
+                        <input type="text" id="storyTitle" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Masukkan judul cerita Anda">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Kategori</label>
+                        <select id="storyCategory" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option value="">Pilih Kategori</option>
+                            <option value="Romantis">Romantis</option>
+                            <option value="Fantasi">Fantasi</option>
+                            <option value="Horor">Horor</option>
+                            <option value="Inspiratif">Inspiratif</option>
+                            <option value="Misteri">Misteri</option>
+                            <option value="Komedi">Komedi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Nama Penulis</label>
+                        <input type="text" id="authorName" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Nama Anda">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Gambar Cerita (URL)</label>
+                        <input type="url" id="storyImage" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="https://example.com/image.jpg">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Ringkasan Cerita</label>
+                        <textarea id="storySummary" required rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Tulis ringkasan singkat cerita Anda..."></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Isi Cerita Lengkap</label>
+                        <div class="editor-toolbar">
+                            <button type="button" class="editor-btn" onclick="formatText('bold')"><i class="fas fa-bold"></i></button>
+                            <button type="button" class="editor-btn" onclick="formatText('italic')"><i class="fas fa-italic"></i></button>
+                            <button type="button" class="editor-btn" onclick="formatText('underline')"><i class="fas fa-underline"></i></button>
+                        </div>
+                        <textarea id="storyContent" required rows="10" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Tulis cerita lengkap Anda di sini..."></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" onclick="closeModal('shareModal')" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                            Publikasikan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Baca Cerita -->
+    <div id="readModal" class="modal">
+        <div class="modal-content w-full md:w-3/4 lg:w-2/3">
+            <span class="close-btn" onclick="closeModal('readModal')">&times;</span>
+            <div class="p-6">
+                <div id="readContent">
+                    <!-- Konten cerita akan dimuat di sini -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data cerita contoh
+        const sampleStories = [
+            {
+                id: 1,
+                title: "Senja di Taman Bunga",
+                category: "Romantis",
+                author: "admin",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3607a793-e1a4-48e8-977c-fdb6b4c04aaa.png",
+                summary: "Kisah tentang pertemuan tak terduga antara dua jiwa yang mencari makna dalam kehidupan. Di tengah taman bunga yang mekar, mereka menemukan cinta yang tak terduga...",
+                content: "Di sebuah taman bunga yang indah, saat senja mulai menyapa, dua jiwa bertemu secara tak terduga. Rina, seorang pelukis yang mencari inspirasi, dan Andi, seorang penulis yang kehilangan kata-kata. Pertemuan mereka dimulai dengan percakapan sederhana tentang keindahan bunga mawar yang sedang mekar.\n\nDari hari ke hari, mereka terus bertemu di taman yang sama. Percakapan mereka semakin dalam, dari sekadar membicarakan bunga hingga membahas makna kehidupan dan cinta. Rina mengajarkan Andi tentang keindahan dalam hal-hal kecil, sementara Andi membantu Rina menemukan kata-kata untuk melukiskan perasaannya.\n\nPada suatu senja yang khusus, di bawah pohon sakura yang mulai bermekaran, Andi mengungkapkan perasaannya. Dan di sanalah, di antara bunga-bunga dan senja, mereka menemukan cinta yang selama ini mereka cari.",
+                readTime: 5,
+                date: "2024-01-15",
+                likes: 42,
+                views: 156
+            },
+            {
+                id: 2,
+                title: "Naga Penjaga Kastil",
+                category: "Fantasi",
+                author: "admin",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e001b208-b5ee-45df-97c7-5b9a7be75344.png",
+                summary: "Di kerajaan kuno yang terlupakan, seekor naga bijak menjaga rahasia terbesar kerajaan. Petualangan dimulai ketika seorang anak petani menemukan telur naga yang misterius...",
+                content: "Di kerajaan Avalon yang telah lama terlupakan, seekor naga bijak bernama Ignis menjaga rahasia terbesar kerajaan. Selama berabad-abad, Ignis setia menjaga kastil dan rahasia yang tersimpan di dalamnya.\n\nSuatu hari, seorang anak petani bernama Leo secara tak sengaja menemukan telur naga yang misterius di hutan terlarang. Telur itu berkilau dengan warna emas dan perak, seolah memanggilnya. Leo membawa pulang telur tersebut, tanpa tahu bahwa petualangan besar menantinya.\n\nKetika telur itu menetas, muncullah seekor naga kecil yang lucu. Ignis, sang naga penjaga, merasakan kelahiran naga baru dan segera mencari Leo. Pertemuan antara Leo dan Ignis membawa mereka pada petualangan untuk mengungkap rahasia kerajaan Avalon yang telah lama tersembunyi.",
+                readTime: 8,
+                date: "2024-01-10",
+                likes: 38,
+                views: 189
+            }
+        ];
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStories();
+            setupEventListeners();
+        });
+
+        // Load cerita dari localStorage atau sample
+        function loadStories() {
+            let stories = JSON.parse(localStorage.getItem('userStories')) || [];
+            
+            // Gabungkan dengan sample stories jika ada
+            const allStories = [...sampleStories, ...stories];
+            
+            const container = document.getElementById('storiesContainer');
+            container.innerHTML = '';
+            
+            allStories.forEach(story => {
+                const storyCard = createStoryCard(story);
+                container.appendChild(storyCard);
+            });
+        }
+
+        // Buat card cerita
+        function createStoryCard(story) {
+            const card = document.createElement('div');
+            card.className = 'story-card';
+            card.innerHTML = `
+                <div class="overflow-hidden">
+                    <img src="${story.image || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/af9969e3-2e94-433e-819a-8ab94bdba40b.png'}" alt="${story.title}" class="w-full h-48 object-cover story-image" onerror="this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f7769aff-22b1-48e3-96ae-860d445a9e43.png'">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="bg-${getCategoryColor(story.category)}-100 text-${getCategoryColor(story.category)}-800 text-sm px-3 py-1 rounded-full">${story.category}</span>
+                        <span class="text-gray-500 text-sm ml-3"><i class="far fa-clock mr-1"></i>${story.readTime} min read</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-['Playfair_Display']">${story.title}</h3>
+                    <p class="text-gray-600 mb-4 line-clamp-3">${story.summary}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500">Oleh: ${story.author}</span>
+                        <button onclick="readStory(${story.id})" class="read-more-btn text-purple-600 font-semibold flex items-center">
+                            Baca Selengkapnya <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                    ${story.userCreated ? `
+                    <div class="story-actions mt-4">
+                        <button onclick="shareStory(${story.id})" class="action-btn share-btn">
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <button onclick="editStory(${story.id})" class="action-btn edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteStory(${story.id})" class="action-btn delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            return card;
+        }
+
+        // Baca cerita lengkap
+        function readStory(storyId) {
+            const stories = [...sampleStories, ...(JSON.parse(localStorage.getItem('userStories')) || [])];
+            const story = stories.find(s => s.id === storyId);
+            
+            if (story) {
+                const readContent = document.getElementById('readContent');
+                readContent.innerHTML = `
+                    <div class="mb-6">
+                        <img src="${story.image || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9853223c-005f-4468-b9d1-dd20c854e478.png'}" alt="${story.title}" class="w-full h-64 object-cover rounded-lg mb-4" onerror="this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/db664d4d-71c6-406d-967c-9008e40e5a58.png'">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-${getCategoryColor(story.category)}-100 text-${getCategoryColor(story.category)}-800 text-sm px-3 py-1 rounded-full">${story.category}</span>
+                            <span class="text-gray-500 text-sm ml-4"><i class="far fa-clock mr-1"></i>${story.readTime} min read</span>
+                            <span class="text-gray-500 text-sm ml-4"><i class="far fa-eye mr-1"></i>${story.views || 0}</span>
+                            <span class="text-gray-500 text-sm ml-4"><i class="far fa-heart mr-1"></i>${story.likes || 0}</span>
+                        </div>
+                        <h1 class="text-3xl font-bold mb-4 font-['Playfair_Display']">${story.title}</h1>
+                        <p class="text-gray-600 mb-2">Oleh: <span class="font-semibold">${story.author}</span></p>
+                        <p class="text-gray-500 text-sm">Dipublikasikan: ${story.date}</p>
+                    </div>
+                    
+                    <div class="prose max-w-none">
+                        <p class="text-gray-600 leading-relaxed mb-6">${story.summary}</p>
+                        <div class="border-t pt-6">
+                            ${story.content.split('\n').map(paragraph => 
+                                paragraph ? `<p class="text-gray-800 leading-relaxed mb-4">${paragraph}</p>` : '<br>'
+                            ).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t">
+                        <div class="flex space-x-4">
+                            <button onclick="likeStory(${story.id})" class="flex items-center text-gray-600 hover:text-red-500 transition">
+                                <i class="far fa-heart mr-2"></i> Suka
+                            </button>
+                            <button onclick="shareStory(${story.id})" class="flex items-center text-gray-600 hover:text-blue-500 transition">
+                                <i class="fas fa-share mr-2"></i> Bagikan
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                openModal('readModal');
+                
+                // Update views
+                if (story.userCreated) {
+                    const userStories = JSON.parse(localStorage.getItem('userStories')) || [];
+                    const updatedStories = userStories.map(s => {
+                        if (s.id === storyId) {
+                            s.views = (s.views || 0) + 1;
+                        }
+                        return s;
+                    });
+                    localStorage.setItem('userStories', JSON.stringify(updatedStories));
+                }
+            }
+        }
+
+        // Buka modal bagikan cerita
+        function openShareModal() {
+            document.getElementById('storyForm').reset();
+            openModal('shareModal');
+        }
+
+        // Submit cerita baru
+        function submitStory(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('storyTitle').value;
+            const category = document.getElementById('storyCategory').value;
+            const author = document.getElementById('authorName').value;
+            const image = document.getElementById('storyImage').value;
+            const summary = document.getElementById('storySummary').value;
+            const content = document.getElementById('storyContent').value;
+            
+            // Hitung waktu baca (1 menit per 200 kata)
+            const wordCount = content.split(' ').length;
+            const readTime = Math.max(1, Math.ceil(wordCount / 200));
+            
+            const newStory = {
+                id: Date.now(),
+                title,
+                category,
+                author,
+                image: image || 'https://placehold.co/600x400?text=No+Image',
+                summary,
+                content,
+                readTime,
+                date: new Date().toLocaleDateString('id-ID'),
+                likes: 0,
+                views: 0,
+                userCreated: true
+            };
+            
+            // Simpan ke localStorage
+            const existingStories = JSON.parse(localStorage.getItem('userStories')) || [];
+            existingStories.push(newStory);
+            localStorage.setItem('userStories', JSON.stringify(existingStories));
+            
+            // Reload cerita
+            loadStories();
+            closeModal('shareModal');
+            
+            // Tampilkan notifikasi
+            alert('Cerita Anda berhasil dipublikasikan!');
+        }
+
+        // Format text editor
+        function formatText(format) {
+            const textarea = document.getElementById('storyContent');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let formattedText = '';
+            switch(format) {
+                case 'bold':
+                    formattedText = `**${selectedText}**`;
+                    break;
+                case 'italic':
+                    formattedText = `_${selectedText}_`;
+                    break;
+                case 'underline':
+                    formattedText = `__${selectedText}__`;
+                    break;
+            }
+            
+            textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.focus();
+            textarea.setSelectionRange(start + formattedText.length, start + formattedText.length);
+        }
+
+        // Bagikan cerita
+        function shareStory(storyId) {
+            const stories = [...sampleStories, ...(JSON.parse(localStorage.getItem('userStories')) || [])];
+            const story = stories.find(s => s.id === storyId);
+            
+            if (story && navigator.share) {
+                navigator.share({
+                    title: story.title,
+                    text: story.summary,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert('Fitur share tidak didukung di browser ini. Cerita: ' + story.title);
+            }
+        }
+
+        // Like cerita
+        function likeStory(storyId) {
+            const userStories = JSON.parse(localStorage.getItem('userStories')) || [];
+            const updatedStories = userStories.map(story => {
+                if (story.id === storyId) {
+                    story.likes = (story.likes || 0) + 1;
+                }
+                return story;
+            });
+            localStorage.setItem('userStories', JSON.stringify(updatedStories));
+            alert('Terima kasih sudah menyukai cerita ini!');
+        }
+
+        // Edit cerita
+        function editStory(storyId) {
+            const userStories = JSON.parse(localStorage.getItem('userStories')) || [];
+            const story = userStories.find(s => s.id === storyId);
+            
+            if (story) {
+                document.getElementById('storyTitle').value = story.title;
+                document.getElementById('storyCategory').value = story.category;
+                document.getElementById('authorName').value = story.author;
+                document.getElementById('storyImage').value = story.image;
+                document.getElementById('storySummary').value = story.summary;
+                document.getElementById('storyContent').value = story.content;
+                
+                // Tambahkan hidden field untuk ID cerita
+                if (!document.getElementById('editStoryId')) {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.id = 'editStoryId';
+                    hiddenInput.value = storyId;
+                    document.getElementById('storyForm').appendChild(hiddenInput);
+                } else {
+                    document.getElementById('editStoryId').value = storyId;
+                }
+                
+                openModal('shareModal');
+            }
+        }
+
+        // Hapus cerita
+        function deleteStory(storyId) {
+            if (confirm('Apakah Anda yakin ingin menghapus cerita ini?')) {
+                const userStories = JSON.parse(localStorage.getItem('userStories')) || [];
+                const updatedStories = userStories.filter(story => story.id !== storyId);
+                localStorage.setItem('userStories', JSON.stringify(updatedStories));
+                loadStories();
+                alert('Cerita berhasil dihapus!');
+            }
+        }
+
+        // Helper functions
+        function getCategoryColor(category) {
+            const colors = {
+                'Romantis': 'blue',
+                'Fantasi': 'green',
+                'Horor': 'red',
+                'Inspiratif': 'purple',
+                'Misteri': 'yellow',
+                'Komedi': 'pink'
+            };
+            return colors[category] || 'gray';
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function setupEventListeners() {
+            // Tutup modal ketika klik di luar konten
+            window.onclick = function(event) {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        closeModal(modal.id);
+                    }
+                });
+            };
+
+            // Animasi hover pada kategori
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            categoryButtons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.transform = 'scale(1.05)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'scale(1)';
+                });
+            });
+
+            // Newsletter form validation
+            const newsletterForm = document.querySelector('input[type="email"]');
+            const subscribeBtn = newsletterForm.nextElementSibling;
+            
+            subscribeBtn.addEventListener('click', function() {
+                if (newsletterForm.value === '' || !newsletterForm.value.includes('@')) {
+                    newsletterForm.style.border = '2px solid red';
+                    alert('Masukkan email yang valid!');
+                } else {
+                    newsletterForm.style.border = 'none';
+                    alert('Terima kasih telah berlangganan!');
+                    newsletterForm.value = '';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Home - Glass UI</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+body {
+margin: 0;
+padding: 0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: #000;
+/* biar aman */
+color: #fff;
+line-height: 1.6;
+overflow-y: auto;
+/* aktifkan scroll */
+}
+
+..background {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-image: url('https://images2.alphacoders.com/133/thumb-1920-1330506.jpeg');
+background-size: cover;
+background-position: center;
+filter: brightness(0.8);
+z-index: -1;
+/* ubah ke belakang agar tidak nutupin konten */
+}
+.main-container {
+position: relative;
+z-index: 2;
+text-align: center;
+color: #fff;
+}
+
+.clock {
+font-size: 48px;
+font-weight: 700;
+margin-bottom: 10px;
+}
+
+.greeting {
+font-size: 20px;
+margin-bottom: 30px;
+opacity: 0.9;
+}
+
+.search-box {
+backdrop-filter: blur(15px);
+background: rgba(255, 255, 255, 0.15);
+border: 1px solid rgba(255, 255, 255, 0.3);
+border-radius: 12px;
+padding: 10px;
+display: flex;
+align-items: center;
+max-width: 500px;
+margin: 0 auto 40px;
+}
+
+.search-box input {
+flex: 1;
+border: none;
+outline: none;
+background: transparent;
+color: #fff;
+font-size: 16px;
+padding: 8px;
+}
+
+.search-box input::placeholder {
+color: rgba(255, 255, 255, 0.6);
+}
+
+.quick-links {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 20px;
+}
+
+.quick-links a {
+text-decoration: none;
+color: #fff;
+backdrop-filter: blur(15px);
+background: rgba(255, 255, 255, 0.15);
+border: 1px solid rgba(255, 255, 255, 0.3);
+padding: 15px 25px;
+border-radius: 12px;
+transition: background 0.3s ease;
+}
+
+.quick-links a:hover {
+background: rgba(255, 255, 255, 0.4);
+}
+</style>
+</head>
+<body>
+
+<div class="background"></div>
+
+<div class="main-container">
+<div class="clock" id="clock">
+00:00
+</div>
+<div class="greeting" id="greeting">
+Hello, User!
+</div>
+
+<div class="search-box">
+<input type="text" placeholder="Search the web..." />
+</div>
+
+<div class="quick-links">
+<a href="https://www.instagram.com/dapa_kebelet.tobat?igsh=Zjd3OHd6ZXZvZDBn" target="_blank">instagram</a>
+<a href="https://open.spotify.com/playlist/08X1POLbtxAdJgeqmwtJoR?si=jEeYNeunQnqzt3Rm-ob5eA&pi=RV_K2DBkQ8O0V" target="_blank">playlist</a> <br />
+<a href="https://youtube.com/@ghoshot.empire?si=9SGaV-81bEDPPPD7" target="_blank">youtube</a>
+<a href="https://whatsapp.com/channel/0029Vb6D3fY4NVicDMqoje3E" target="_blank">whatsapp</a>
+</div>
+<br />
+<div class="main-container">
+<h1>Hello,Welcome back</h1>
+<h2>to my website</h2>
+</div>
+<h4><cite>By:Davva HadiKusuma</cite></h4>
+<br />
+<img class="main-container" src="foto/saya.webp" alt="gambar" width="160" height="200" onabort="100"/>
+<br />
+<br />
+<p>
+Disini,saya akan bercerita tentang rahasia sukses saya
+<br />berawal dari seorang perintis bukan pewaris
+<br />
+<a href="mystory.html">[Klick to play]</a><br />
+
+<script>
+function updateClock() {
+const now = new Date();
+let hours = now.getHours();
+let minutes = now.getMinutes().toString().padStart(2, "0");
+document.getElementById("clock").textContent = `${hours}:${minutes}`;
+
+let greetingText = "Hello";
+if (hours < 12) greetingText = "Good Morning ☀️";
+else if (hours < 18) greetingText = "Good Afternoon 🌤️";
+else greetingText = "Good Evening 🌙";
+
+document.getElementById("greeting").textContent = greetingText;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
